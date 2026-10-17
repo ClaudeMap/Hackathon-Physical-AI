@@ -114,19 +114,18 @@ class TaskService:
         task = self._find_in(tasks, task_id)
         if task.status != TaskStatus.IN_PROGRESS:
             raise HTTPException(status_code=409, detail="Only an in-progress task can receive a plan")
-        task.diagnosis = plan.diagnosis
-        task.confidence = plan.confidence
-        task.can_staff_fix = plan.can_staff_fix
-        # Preserve completed evidence and append the Solver's next, pending steps.
-        task.action_items.extend(plan.action_items)
-        task.supplier_contact_id = plan.supplier_contact_id
-        task.supplier_name = plan.supplier_name
-        task.estimated_callout_cost_gbp = plan.estimated_callout_cost_gbp
-        task.escalation_brief = plan.escalation_brief
-        task.voice_script = plan.voice_script
-        task.claimed_by = None
-        task.status = TaskStatus.READY if plan.can_staff_fix else TaskStatus.ESCALATED
-        task.updated_at = _now()
+        self._apply_plan(task, plan)
+        self._save_tasks(state, tasks)
+        return task
+
+    def attach_plan_if_empty(self, task_id: str, plan: ActionPlan) -> Task | None:
+        """Fill a queued task that has no steps yet. Leaves claimed and already-planned tasks alone."""
+        state = self.store.read()
+        tasks = [Task.model_validate(item) for item in state["tasks"]]
+        task = self._find_in(tasks, task_id)
+        if task.action_items or task.status not in {TaskStatus.QUEUED, TaskStatus.READY}:
+            return None
+        self._apply_plan(task, plan)
         self._save_tasks(state, tasks)
         return task
 
@@ -214,6 +213,22 @@ class TaskService:
     def _save_tasks(self, state: dict, tasks: list[Task]) -> None:
         state["tasks"] = [task.model_dump(mode="json") for task in tasks]
         self.store.write(state)
+
+    @staticmethod
+    def _apply_plan(task: Task, plan: ActionPlan) -> None:
+        task.diagnosis = plan.diagnosis
+        task.confidence = plan.confidence
+        task.can_staff_fix = plan.can_staff_fix
+        # Preserve completed evidence and append the next pending steps.
+        task.action_items.extend(plan.action_items)
+        task.supplier_contact_id = plan.supplier_contact_id
+        task.supplier_name = plan.supplier_name
+        task.estimated_callout_cost_gbp = plan.estimated_callout_cost_gbp
+        task.escalation_brief = plan.escalation_brief
+        task.voice_script = plan.voice_script
+        task.claimed_by = None
+        task.status = TaskStatus.READY if plan.can_staff_fix else TaskStatus.ESCALATED
+        task.updated_at = _now()
 
 
 def _unique(values: list[str]) -> list[str]:

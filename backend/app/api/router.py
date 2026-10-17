@@ -16,7 +16,8 @@ from app.domain.models import (
     TaskProposal,
 )
 from app.repositories.json_store import JsonStore
-from app.services.prioritiser import build_queue, load_messages
+from app.services.demo_plans import draft_demo_plans
+from app.services.prioritiser import build_queue, load_messages, publish_pending
 from app.services.task_service import TaskService
 
 
@@ -122,3 +123,15 @@ def reset_demo_state() -> Response:
 def seed_queue_from_messages(service: TaskService = Depends(get_service)) -> list[Task]:
     """Development-only: run the demo prioritiser over the intake messages. Re-running skips seen messages."""
     return build_queue(service, load_messages(messages_path()))
+
+
+@router.post("/dev/prioritise-intake", response_model=list[Task])
+def prioritise_stored_intake(service: TaskService = Depends(get_service)) -> list[Task]:
+    """Development-only: turn messages already stored via intake into queued tasks."""
+    return publish_pending(service)
+
+
+@router.post("/dev/draft-plans", response_model=list[Task])
+def draft_plans_for_empty_tasks(service: TaskService = Depends(get_service)) -> list[Task]:
+    """Development-only: fill tasks that have no steps yet, using the office inventory."""
+    return draft_demo_plans(service)

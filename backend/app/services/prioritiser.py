@@ -144,6 +144,42 @@ def build_queue(service: TaskService, messages: list[IncomingMessage]) -> list[T
     return [service.create_from_proposal(proposal) for proposal in prioritise(new)]
 
 
+def publish_pending(service: TaskService) -> list[Task]:
+    """Queue intake messages that are not yet attached to a task. Safe to re-run.
+
+    A message may name an existing task via metadata.duplicate_of_task_id. That report
+    is merged onto the open ticket instead of opening another one.
+    """
+    linked = {message_id for task in service.list_tasks(include_resolved=True) for message_id in task.source_message_ids}
+    pending = [message for message in service.list_messages() if message.id not in linked and not message.metadata.get("processed")]
+    duplicates = [message for message in pending if message.metadata.get("duplicate_of_task_id")]
+    fresh = [message for message in pending if message not in duplicates]
+    published = [service.create_from_proposal(_duplicate_proposal(message)) for message in duplicates]
+    published.extend(service.create_from_proposal(proposal) for proposal in prioritise(fresh))
+    return published
+
+
+def _duplicate_proposal(message: IncomingMessage) -> TaskProposal:
+    rule = classify(message)
+    title = message.content.strip().splitlines()[0][:140]
+    if len(title) < 3:
+        title = rule.title
+    return TaskProposal(
+        title=title,
+        description=message.content.strip() or title,
+        priority=rule.priority,
+        severity=Severity[rule.priority.name],
+        problem_type=rule.problem_type,
+        location=message.location,
+        reporter_ids=[message.author] if message.author else [],
+        source_message_ids=[message.id],
+        attachments=list(message.attachments),
+        duplicate_of_task_id=str(message.metadata["duplicate_of_task_id"]),
+        confidence=0.8,
+        model_reasoning="report names an open task, so it is merged",
+    )
+
+
 def _propose(group: _Group) -> TaskProposal:
     rule, messages = group.rule, group.messages
     priority, reasons = rule.priority, [f"rule '{rule.key}' sets {rule.priority.name.lower()}"]

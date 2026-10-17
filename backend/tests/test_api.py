@@ -148,3 +148,69 @@ def test_solver_action_plan_has_a_maximum_of_three_actions() -> None:
     )
     assert response.status_code == 422
 
+
+def test_web_report_is_queued_and_given_inventory_steps() -> None:
+    recorded = client.post(
+        "/api/v1/intake/messages",
+        json={
+            "source": "web",
+            "author": "nikolaj.jensen@steward-demo.co.uk",
+            "content": "The coffee machine says grinder jammed",
+            "location": "Kitchen",
+        },
+    )
+    assert recorded.status_code == 201
+
+    queued = client.post("/api/v1/dev/prioritise-intake")
+    assert queued.status_code == 200
+    task = queued.json()[0]
+    assert task["problem_type"] == "appliance"
+    assert task["action_items"] == []
+
+    drafted = client.post("/api/v1/dev/draft-plans")
+    assert drafted.status_code == 200
+    plan = drafted.json()[0]
+    assert plan["id"] == task["id"]
+    assert plan["status"] == "ready"
+    assert plan["diagnosis"]
+    assert 1 <= len(plan["action_items"]) <= 3
+    assert plan["action_items"][0]["status"] == "pending"
+    assert "hopper" in plan["action_items"][0]["title"].lower() or "bean" in plan["action_items"][0]["title"].lower()
+
+    again = client.post("/api/v1/dev/draft-plans")
+    assert again.json() == []
+
+
+def test_follow_up_report_merges_onto_the_named_task() -> None:
+    original = client.post(
+        "/api/v1/queue/tasks",
+        json={
+            "title": "Coffee machine out of action",
+            "description": "Grinder jammed.",
+            "priority": 3,
+            "severity": "normal",
+            "reporter_ids": ["aisha.rahman@steward-demo.co.uk"],
+        },
+    ).json()
+    client.post(
+        "/api/v1/intake/messages",
+        json={
+            "source": "web",
+            "author": "leo.martin@steward-demo.co.uk",
+            "content": "Same coffee machine, still jammed",
+            "metadata": {"duplicate_of_task_id": original["id"]},
+        },
+    ).raise_for_status()
+
+    merged = client.post("/api/v1/dev/prioritise-intake").json()
+    assert len(merged) == 1
+    assert merged[0]["id"] == original["id"]
+    assert "leo.martin@steward-demo.co.uk" in merged[0]["reporter_ids"]
+    assert len(client.get("/api/v1/tasks").json()) == 1
+
+
+def test_intake_photos_are_served() -> None:
+    response = client.get("/media/coffee-machine.jpg")
+    assert response.status_code == 200
+    assert response.headers["content-type"].startswith("image/")
+

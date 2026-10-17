@@ -19,6 +19,11 @@ def messages_path() -> Path:
     return LOCAL_MESSAGES_PATH if LOCAL_MESSAGES_PATH.exists() else DEMO_MESSAGES_PATH
 
 
+def images_dir() -> Path:
+    """Local JPEGs referenced by intake photo_link values."""
+    return DEMO_MESSAGES_PATH.parent / "images"
+
+
 def state_path() -> Path:
     """Return the configured demo-state file, creating its parent if needed."""
     path = Path(os.getenv("STEWARD_STATE_PATH", DEFAULT_STATE_PATH))
