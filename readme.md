@@ -113,3 +113,5 @@ The frontend can attach outcome evidence when it completes an action:
 Jev posts a `TaskProposal` containing a title, description, `priority`, `severity`, optional location/problem type, reporter/message IDs, confidence and an optional duplicate ticket ID.
 
 Solver posts an `ActionPlan` containing a diagnosis, confidence, staff-vs-supplier decision, one to three pending action items, and optional supplier contact ID, supplier, cost, escalation brief and voice script. The action plan becomes the exact data the frontend renders.
+
+Test note: small change added to confirm commits work.
