@@ -12,6 +12,7 @@ def setup_function() -> None:
 
 
 def test_frontend_can_read_a_solver_plan_and_complete_it() -> None:
+    initial_history_count = len(client.get("/api/v1/context").json()["history"])
     created = client.post(
         "/api/v1/queue/tasks",
         json={
@@ -55,7 +56,7 @@ def test_frontend_can_read_a_solver_plan_and_complete_it() -> None:
     )
     assert resolved.status_code == 200
     assert resolved.json()["status"] == "resolved"
-    assert len(client.get("/api/v1/context").json()["history"]) == 1
+    assert len(client.get("/api/v1/context").json()["history"]) == initial_history_count + 1
 
 
 def test_duplicate_proposal_merges_onto_existing_task() -> None:

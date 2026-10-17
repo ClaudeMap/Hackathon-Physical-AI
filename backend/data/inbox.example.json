@@ -1,23 +1,87 @@
-[
-  {
+{
+  "msg_001": {
+    "id": "msg_001",
     "source": "slack",
-    "author": "sam@example.com",
-    "content": "The kitchen fuse has gone again. The sockets by the coffee machine are off.",
+    "author": "aisha.rahman@steward-demo.co.uk",
+    "received_at": "2026-10-17T08:42:00Z",
     "location": "Kitchen",
-    "attachments": [
-      {
-        "url": "https://example.invalid/demo/fuse-board.jpg",
-        "media_type": "image",
-        "caption": "Fuse board, lower switch is down"
-      }
-    ]
+    "content": "The Jura coffee machine has stopped making drinks and the screen says ‘grinder jammed’. I have attached a photo from the kitchen counter. Can someone help before the stand-up?",
+    "photo_link": "images/coffee-machine.jpg",
+    "photo_description": "Photo of the office kitchen coffee machines; the reported Jura X8 is on the counter.",
+    "asset_hint": "asset-001",
+    "processed": false,
+    "photo_attribution": {
+      "source_url": "https://commons.wikimedia.org/wiki/File:Coffee_machines.jpg",
+      "author": "Saper",
+      "license": "CC BY-SA 4.0"
+    }
   },
-  {
+  "msg_002": {
+    "id": "msg_002",
     "source": "email",
-    "author": "jules@example.com",
-    "content": "Can someone look at the dishwasher? It shows E24.",
+    "author": "leo.martin@steward-demo.co.uk",
+    "received_at": "2026-10-17T09:06:00Z",
     "location": "Kitchen",
-    "attachments": []
+    "content": "Subject: Dishwasher error E24\n\nThe dishwasher stopped after the breakfast dishes. It is showing E24 and there is water at the bottom. I have left it switched off and attached a photo.\n\nThanks,\nLeo",
+    "photo_link": "images/dishwasher-open.jpg",
+    "photo_description": "Photo of an open, loaded dishwasher. The reported error code is E24.",
+    "asset_hint": "asset-002",
+    "processed": false,
+    "photo_attribution": {
+      "source_url": "https://commons.wikimedia.org/wiki/File:Dishwasher_open_for_loading.jpg",
+      "author": "Carlos Paes",
+      "license": "Unrestricted reuse permission via Wikimedia Commons"
+    }
+  },
+  "msg_003": {
+    "id": "msg_003",
+    "source": "slack",
+    "author": "sam.clarke@steward-demo.co.uk",
+    "received_at": "2026-10-17T09:18:00Z",
+    "location": "Kitchen electrical cupboard",
+    "content": "Kitchen sockets are out: the coffee machine and counter outlets have no power. I took a photo of the fuse board; one breaker looks down. No smoke, heat, water or burning smell.",
+    "photo_link": "images/kitchen-fuse-board.jpg",
+    "photo_description": "Close-up of a consumer unit / circuit breaker panel. Treat the message safety details and office asset record as authoritative for the labelled Kitchen Sockets breaker.",
+    "asset_hint": "asset-003",
+    "processed": false,
+    "photo_attribution": {
+      "source_url": "https://commons.wikimedia.org/wiki/File:Circuit_Breaker.jpg",
+      "author": "Douglas Paul Perkins",
+      "license": "CC0 1.0"
+    }
+  },
+  "msg_004": {
+    "id": "msg_004",
+    "source": "slack",
+    "author": "nikolaj.jensen@steward-demo.co.uk",
+    "received_at": "2026-10-17T09:31:00Z",
+    "location": "Reception",
+    "content": "The reception printer has a paper jam in tray 2. I removed the loose sheet but the error remains, so I have not forced anything. Photo attached.",
+    "photo_link": "images/reception-printer.jpg",
+    "photo_description": "Photo of a printer with its internal paper path exposed for maintenance; do not ask staff to dismantle the office printer.",
+    "asset_hint": "asset-005",
+    "processed": false,
+    "photo_attribution": {
+      "source_url": "https://commons.wikimedia.org/wiki/File:Printer1.jpg",
+      "author": "K.saunders",
+      "license": "CC BY-SA 3.0"
+    }
+  },
+  "msg_005": {
+    "id": "msg_005",
+    "source": "email",
+    "author": "leo.martin@steward-demo.co.uk",
+    "received_at": "2026-10-17T10:05:00Z",
+    "location": "Open-plan desks, zone C near desk C10",
+    "content": "Subject: Plants by C10\n\nThe planter next to desk C10 has dry soil and several yellowing, damaged leaves. I have attached a photo. Could it be watered today and added to the next plant-care visit?\n\nLeo",
+    "photo_link": "images/yellowing-plant.jpg",
+    "photo_description": "Close-up of severely damaged, yellowing plant leaves.",
+    "asset_hint": "asset-007",
+    "processed": false,
+    "photo_attribution": {
+      "source_url": "https://commons.wikimedia.org/wiki/File:Dying_plant.jpg",
+      "author": "AJB",
+      "license": "CC BY-SA 4.0"
+    }
   }
-]
-
+}

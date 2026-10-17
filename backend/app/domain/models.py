@@ -168,4 +168,6 @@ class OfficeContext(BaseModel):
     inventory: list[dict[str, Any]] = Field(default_factory=list)
     memory: list[dict[str, Any]] = Field(default_factory=list)
     history: list[dict[str, Any]] = Field(default_factory=list)
+    invoices: list[dict[str, Any]] = Field(default_factory=list)
+    playbooks: list[dict[str, Any]] = Field(default_factory=list)
 

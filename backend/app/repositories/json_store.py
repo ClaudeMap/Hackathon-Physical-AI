@@ -7,23 +7,18 @@ from threading import RLock
 from typing import Any
 
 
+COMPANY_CONTEXT_PATH = Path(__file__).resolve().parents[2] / "data" / "company_context.json"
+
+
+def _load_seed_context() -> dict[str, Any]:
+    with COMPANY_CONTEXT_PATH.open(encoding="utf-8") as file:
+        return json.load(file)
+
+
 DEFAULT_STATE: dict[str, Any] = {
     "messages": [],
     "tasks": [],
-    "office_context": {
-        "office_description": {
-            "name": "Steward Demo Office",
-            "rooms": ["Kitchen", "Main floor", "Meeting Room 1"],
-        },
-        "employees": [],
-        "escalation_contacts": [
-            {"name": "BrightSpark Electricians", "speciality": "electrical", "callout_cost_gbp": 120},
-            {"name": "Northstar Managed IT", "speciality": "network", "callout_cost_gbp": 95},
-        ],
-        "inventory": [],
-        "memory": [],
-        "history": [],
-    },
+    "office_context": _load_seed_context(),
 }
 
 

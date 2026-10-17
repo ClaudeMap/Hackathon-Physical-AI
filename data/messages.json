@@ -1,176 +1,87 @@
 {
   "msg_001": {
-    "content": "Hey team, the coffee machine on the 3rd floor kitchen is showing 'Descale required - E07' and won't brew anything. Half the office is suffering 😩",
-    "photo_link": "photos/coffee_machine_e07.jpg",
+    "id": "msg_001",
     "source": "slack",
-    "processed": false
+    "author": "aisha.rahman@steward-demo.co.uk",
+    "received_at": "2026-10-17T08:42:00Z",
+    "location": "Kitchen",
+    "content": "The Jura coffee machine has stopped making drinks and the screen says ‘grinder jammed’. I have attached a photo from the kitchen counter. Can someone help before the stand-up?",
+    "photo_link": "images/coffee-machine.jpg",
+    "photo_description": "Photo of the office kitchen coffee machines; the reported Jura X8 is on the counter.",
+    "asset_hint": "asset-001",
+    "processed": false,
+    "photo_attribution": {
+      "source_url": "https://commons.wikimedia.org/wiki/File:Coffee_machines.jpg",
+      "author": "Saper",
+      "license": "CC BY-SA 4.0"
+    }
   },
   "msg_002": {
-    "content": "Subject: Dishwasher broken - kitchen\n\nHi,\n\nThe dishwasher in the main kitchen stopped mid-cycle this morning and there's standing water in the bottom. I've left the door open so it doesn't smell. Could someone get it looked at?\n\nThanks,\nPriya",
-    "photo_link": "photos/dishwasher_standing_water.jpg",
+    "id": "msg_002",
     "source": "email",
-    "processed": false
+    "author": "leo.martin@steward-demo.co.uk",
+    "received_at": "2026-10-17T09:06:00Z",
+    "location": "Kitchen",
+    "content": "Subject: Dishwasher error E24\n\nThe dishwasher stopped after the breakfast dishes. It is showing E24 and there is water at the bottom. I have left it switched off and attached a photo.\n\nThanks,\nLeo",
+    "photo_link": "images/dishwasher-open.jpg",
+    "photo_description": "Photo of an open, loaded dishwasher. The reported error code is E24.",
+    "asset_hint": "asset-002",
+    "processed": false,
+    "photo_attribution": {
+      "source_url": "https://commons.wikimedia.org/wiki/File:Dishwasher_open_for_loading.jpg",
+      "author": "Carlos Paes",
+      "license": "Unrestricted reuse permission via Wikimedia Commons"
+    }
   },
   "msg_003": {
-    "content": "Subject: Just Eat delivery - Friday team lunch\n\nHi,\n\nCan we get the Just Eat order placed for the Friday all-hands lunch? 35 people, 6 vegetarian, 2 vegan, 1 gluten-free. Needs to arrive by 12:30 at reception.\n\nCheers,\nTom",
-    "photo_link": null,
-    "source": "email",
-    "processed": false
+    "id": "msg_003",
+    "source": "slack",
+    "author": "sam.clarke@steward-demo.co.uk",
+    "received_at": "2026-10-17T09:18:00Z",
+    "location": "Kitchen electrical cupboard",
+    "content": "Kitchen sockets are out: the coffee machine and counter outlets have no power. I took a photo of the fuse board; one breaker looks down. No smoke, heat, water or burning smell.",
+    "photo_link": "images/kitchen-fuse-board.jpg",
+    "photo_description": "Close-up of a consumer unit / circuit breaker panel. Treat the message safety details and office asset record as authoritative for the labelled Kitchen Sockets breaker.",
+    "asset_hint": "asset-003",
+    "processed": false,
+    "photo_attribution": {
+      "source_url": "https://commons.wikimedia.org/wiki/File:Circuit_Breaker.jpg",
+      "author": "Douglas Paul Perkins",
+      "license": "CC0 1.0"
+    }
   },
   "msg_004": {
-    "content": "is the wifi down for anyone else?? can't connect to OfficeNet on the 2nd floor, keeps saying 'no internet'",
-    "photo_link": null,
+    "id": "msg_004",
     "source": "slack",
-    "processed": false
+    "author": "nikolaj.jensen@steward-demo.co.uk",
+    "received_at": "2026-10-17T09:31:00Z",
+    "location": "Reception",
+    "content": "The reception printer has a paper jam in tray 2. I removed the loose sheet but the error remains, so I have not forced anything. Photo attached.",
+    "photo_link": "images/reception-printer.jpg",
+    "photo_description": "Photo of a printer with its internal paper path exposed for maintenance; do not ask staff to dismantle the office printer.",
+    "asset_hint": "asset-005",
+    "processed": false,
+    "photo_attribution": {
+      "source_url": "https://commons.wikimedia.org/wiki/File:Printer1.jpg",
+      "author": "K.saunders",
+      "license": "CC BY-SA 3.0"
+    }
   },
   "msg_005": {
-    "content": "+1 wifi is dead in meeting room Orion too, I'm on a client call in 10 mins 🚨",
-    "photo_link": null,
-    "source": "slack",
-    "processed": false
-  },
-  "msg_006": {
-    "content": "kitchen power just went off, kettle microwave and toaster all dead. took a pic of the fuse board, one of the switches is flipped down - someone take a look at this?",
-    "photo_link": "photos/kitchen_fuse_board_tripped.jpg",
-    "source": "slack",
-    "processed": false
-  },
-  "msg_007": {
-    "content": "printer near the design team is jammed again and now it says 'Paper jam tray 2' even after I cleared it. Can someone have a look?",
-    "photo_link": "photos/printer_jam_tray2.jpg",
-    "source": "slack",
-    "processed": false
-  },
-  "msg_008": {
-    "content": "Subject: New screens for the sales pod\n\nHi,\n\nThe 6 new Dell 27\" monitors have arrived and are sitting in reception. Could they be installed on the sales pod desks (desks S1-S6) before Monday? Each desk needs a monitor arm and a USB-C cable.\n\nBest,\nAisha",
-    "photo_link": "photos/monitor_boxes_reception.jpg",
+    "id": "msg_005",
     "source": "email",
-    "processed": false
-  },
-  "msg_009": {
-    "content": "Not to be dramatic but the plants by the windows are dying 🥀 the big fiddle leaf fig has lost like half its leaves",
-    "photo_link": "photos/fiddle_leaf_fig.jpg",
-    "source": "slack",
-    "processed": false
-  },
-  "msg_010": {
-    "content": "Subject: Water leak in the men's toilets\n\nHi,\n\nThere's water leaking from under the sink in the 1st floor men's toilets and it's spreading across the floor. I've put a sign up but it needs sorting asap before someone slips.\n\nDaniel",
-    "photo_link": "photos/toilet_sink_leak.jpg",
-    "source": "email",
-    "processed": false
-  },
-  "msg_011": {
-    "content": "we're out of oat milk again 😭 also running low on coffee beans",
-    "photo_link": null,
-    "source": "slack",
-    "processed": false
-  },
-  "msg_012": {
-    "content": "Subject: Meeting room booking screen not working\n\nHi,\n\nThe booking panel outside meeting room Atlas is just showing a black screen. People keep double-booking the room because they can't see the schedule.\n\nThanks,\nSophie",
-    "photo_link": "photos/atlas_booking_panel.jpg",
-    "source": "email",
-    "processed": false
-  },
-  "msg_013": {
-    "content": "the lights in the north stairwell are flickering like a horror movie, pretty sure one of the tubes is going",
-    "photo_link": null,
-    "source": "slack",
-    "processed": false
-  },
-  "msg_014": {
-    "content": "Subject: Air con too cold\n\nHello,\n\nThe air con on the 2nd floor is blasting cold air and everyone is wearing coats. Can the temperature be turned up a few degrees? The thermostat panel seems locked.\n\nRegards,\nElena",
-    "photo_link": null,
-    "source": "email",
-    "processed": false
-  },
-  "msg_015": {
-    "content": "thanks for fixing the projector yesterday, works perfectly now 🙌",
-    "photo_link": null,
-    "source": "slack",
-    "processed": false
-  },
-  "msg_016": {
-    "content": "Subject: New starter on Monday - desk setup\n\nHi,\n\nWe have a new engineer, James Holt, starting Monday. Could you set up a desk for him in the engineering area with a laptop dock, keyboard, mouse and two monitors? He'll also need a building access card.\n\nThanks,\nRachel (People Team)",
-    "photo_link": null,
-    "source": "email",
-    "processed": false
-  },
-  "msg_017": {
-    "content": "the fridge in the 3rd floor kitchen smells really bad, I think something's gone off in there. also it's making a weird buzzing noise",
-    "photo_link": "photos/fridge_kitchen_3f.jpg",
-    "source": "slack",
-    "processed": false
-  },
-  "msg_018": {
-    "content": "Subject: Broken chair\n\nHi,\n\nMy desk chair (desk E14) has a broken gas lift and keeps sinking to the lowest height. Could I get a replacement please?\n\nCheers,\nOmar",
-    "photo_link": "photos/broken_chair_e14.jpg",
-    "source": "email",
-    "processed": false
-  },
-  "msg_019": {
-    "content": "anyone know where the spare HDMI adapters are? need one for the all-hands at 3pm",
-    "photo_link": null,
-    "source": "slack",
-    "processed": false
-  },
-  "msg_020": {
-    "content": "Subject: Recycling bins overflowing\n\nHello,\n\nThe recycling bins by the back entrance haven't been collected this week and are overflowing onto the floor. Could you chase the waste collection company?\n\nThanks,\nGrace",
-    "photo_link": "photos/recycling_overflow.jpg",
-    "source": "email",
-    "processed": false
-  },
-  "msg_021": {
-    "content": "lunch & learn starts in 5 mins in the main room, pizza is here 🍕",
-    "photo_link": null,
-    "source": "slack",
-    "processed": false
-  },
-  "msg_022": {
-    "content": "Subject: Coffee machine\n\nHi,\n\nJust flagging that the coffee machine on 3F is still broken - it's been 2 days now. Any update?\n\nLiam",
-    "photo_link": null,
-    "source": "email",
-    "processed": false
-  },
-  "msg_023": {
-    "content": "Subject: Printer toner\n\nHi,\n\nThe printer by reception is out of black toner. Could we order a replacement cartridge (HP 59A)?\n\nThanks,\nNina",
-    "photo_link": null,
-    "source": "email",
-    "processed": true
-  },
-  "msg_024": {
-    "content": "the door to the bike storage won't lock properly anymore, the latch doesn't catch. bit worried about bikes getting nicked",
-    "photo_link": "photos/bike_storage_door.jpg",
-    "source": "slack",
-    "processed": true
-  },
-  "msg_025": {
-    "content": "is the kitchen power out? fridge light is off and the dishwasher display is blank",
-    "photo_link": "photos/kitchen_appliances_no_power.jpg",
-    "source": "slack",
-    "processed": false
-  },
-  "msg_026": {
-    "content": "Subject: No power in the kitchen\n\nHi,\n\nNone of the kitchen sockets are working. I was heating my lunch and the microwave cut out, then everything else went off too. I think it might be a tripped fuse?\n\nThanks,\nHannah",
-    "photo_link": null,
-    "source": "email",
-    "processed": false
-  },
-  "msg_027": {
-    "content": "someone take a look at this? 👀",
-    "photo_link": "photos/ceiling_tile_water_stain.jpg",
-    "source": "slack",
-    "processed": false
-  },
-  "msg_028": {
-    "content": "what does this light mean",
-    "photo_link": "photos/router_red_light.jpg",
-    "source": "slack",
-    "processed": false
-  },
-  "msg_029": {
-    "content": "Subject: Electrician invoice query\n\nHi,\n\nWe've received an invoice from BrightSpark Electrical for £340 for a call-out to reset a breaker in the kitchen last month. That seems high for a 10-minute job - can you check whether this matches what was actually done?\n\nThanks,\nMark (Finance)",
-    "photo_link": "photos/brightspark_invoice.jpg",
-    "source": "email",
-    "processed": false
+    "author": "leo.martin@steward-demo.co.uk",
+    "received_at": "2026-10-17T10:05:00Z",
+    "location": "Open-plan desks, zone C near desk C10",
+    "content": "Subject: Plants by C10\n\nThe planter next to desk C10 has dry soil and several yellowing, damaged leaves. I have attached a photo. Could it be watered today and added to the next plant-care visit?\n\nLeo",
+    "photo_link": "images/yellowing-plant.jpg",
+    "photo_description": "Close-up of severely damaged, yellowing plant leaves.",
+    "asset_hint": "asset-007",
+    "processed": false,
+    "photo_attribution": {
+      "source_url": "https://commons.wikimedia.org/wiki/File:Dying_plant.jpg",
+      "author": "AJB",
+      "license": "CC BY-SA 4.0"
+    }
   }
 }
