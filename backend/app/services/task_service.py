@@ -9,6 +9,7 @@ from app.domain.models import (
     ActionItemPatch,
     ActionItemStatus,
     ActionPlan,
+    ClaimRelease,
     IncomingMessage,
     OfficeContext,
     Resolution,
@@ -72,15 +73,37 @@ class TaskService:
     def claim_next(self, claim: TaskClaim) -> Task | None:
         state = self.store.read()
         tasks = [Task.model_validate(item) for item in state["tasks"]]
-        queued = sorted(
-            (task for task in tasks if task.status == TaskStatus.QUEUED),
+        candidates = sorted(
+            (task for task in tasks if self._is_solver_candidate(task)),
             key=lambda task: (int(task.priority), task.created_at),
         )
-        if not queued:
+        if not candidates:
             return None
-        task = queued[0]
+        task = candidates[0]
         task.status = TaskStatus.IN_PROGRESS
         task.claimed_by = claim.worker_id
+        task.updated_at = _now()
+        self._save_tasks(state, tasks)
+        return task
+
+    def list_solver_candidates(self) -> list[Task]:
+        """Tasks that require a new plan after all earlier actions are complete."""
+        return sorted(
+            (task for task in self._tasks() if self._is_solver_candidate(task)),
+            key=lambda task: (int(task.priority), task.created_at),
+        )
+
+    def release_claim(self, task_id: str, release: ClaimRelease) -> Task:
+        """Return a failed Solver claim to the queue so another poll can retry it."""
+        state = self.store.read()
+        tasks = [Task.model_validate(item) for item in state["tasks"]]
+        task = self._find_in(tasks, task_id)
+        if task.status != TaskStatus.IN_PROGRESS:
+            raise HTTPException(status_code=409, detail="Only an in-progress task can be released")
+        if task.claimed_by != release.worker_id:
+            raise HTTPException(status_code=409, detail="Task is claimed by another worker")
+        task.status = TaskStatus.READY if task.action_items else TaskStatus.QUEUED
+        task.claimed_by = None
         task.updated_at = _now()
         self._save_tasks(state, tasks)
         return task
@@ -89,16 +112,19 @@ class TaskService:
         state = self.store.read()
         tasks = [Task.model_validate(item) for item in state["tasks"]]
         task = self._find_in(tasks, task_id)
-        if task.status not in {TaskStatus.IN_PROGRESS, TaskStatus.QUEUED}:
-            raise HTTPException(status_code=409, detail="Only queued or in-progress tasks can receive a plan")
+        if task.status != TaskStatus.IN_PROGRESS:
+            raise HTTPException(status_code=409, detail="Only an in-progress task can receive a plan")
         task.diagnosis = plan.diagnosis
         task.confidence = plan.confidence
         task.can_staff_fix = plan.can_staff_fix
-        task.action_items = plan.action_items
+        # Preserve completed evidence and append the Solver's next, pending steps.
+        task.action_items.extend(plan.action_items)
+        task.supplier_contact_id = plan.supplier_contact_id
         task.supplier_name = plan.supplier_name
         task.estimated_callout_cost_gbp = plan.estimated_callout_cost_gbp
         task.escalation_brief = plan.escalation_brief
         task.voice_script = plan.voice_script
+        task.claimed_by = None
         task.status = TaskStatus.READY if plan.can_staff_fix else TaskStatus.ESCALATED
         task.updated_at = _now()
         self._save_tasks(state, tasks)
@@ -121,8 +147,17 @@ class TaskService:
         item = next((item for item in task.action_items if item.id == action_item_id), None)
         if item is None:
             raise HTTPException(status_code=404, detail="Action item not found")
-        item.status = patch.status
-        item.completed_at = _now() if patch.status == ActionItemStatus.COMPLETE else None
+        updated_fields = patch.model_fields_set
+        if patch.status is not None:
+            item.status = patch.status
+        if patch.user_context is not None:
+            item.user_context = patch.user_context
+        if patch.completed_by is not None:
+            item.completed_by = patch.completed_by
+        if "attachments" in updated_fields:
+            item.attachments = patch.attachments or []
+        if "status" in updated_fields:
+            item.completed_at = _now() if item.status == ActionItemStatus.COMPLETE else None
         task.updated_at = _now()
         self._save_tasks(state, tasks)
         return task
@@ -162,6 +197,12 @@ class TaskService:
 
     def _tasks(self) -> list[Task]:
         return [Task.model_validate(item) for item in self.store.read()["tasks"]]
+
+    @staticmethod
+    def _is_solver_candidate(task: Task) -> bool:
+        return task.status in {TaskStatus.QUEUED, TaskStatus.READY} and all(
+            item.status == ActionItemStatus.COMPLETE for item in task.action_items
+        )
 
     @staticmethod
     def _find_in(tasks: Iterable[Task], task_id: str) -> Task:

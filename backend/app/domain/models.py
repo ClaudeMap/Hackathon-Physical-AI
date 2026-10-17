@@ -5,7 +5,7 @@ from enum import Enum, IntEnum
 from typing import Any
 from uuid import uuid4
 
-from pydantic import BaseModel, ConfigDict, Field
+from pydantic import BaseModel, ConfigDict, Field, model_validator
 
 
 def utc_now() -> datetime:
@@ -91,6 +91,9 @@ class ActionItem(BaseModel):
     estimated_minutes: int | None = Field(default=None, ge=0)
     status: ActionItemStatus = ActionItemStatus.PENDING
     needs_supplier: bool = False
+    user_context: str | None = Field(default=None, max_length=2_000)
+    attachments: list[MediaAttachment] = Field(default_factory=list)
+    completed_by: str | None = None
     completed_at: datetime | None = None
 
 
@@ -100,12 +103,19 @@ class ActionPlan(BaseModel):
     diagnosis: str = Field(min_length=1)
     confidence: float = Field(ge=0, le=1)
     can_staff_fix: bool
-    action_items: list[ActionItem] = Field(min_length=1)
+    action_items: list[ActionItem] = Field(min_length=1, max_length=3)
+    supplier_contact_id: str | None = None
     supplier_name: str | None = None
     estimated_callout_cost_gbp: float | None = Field(default=None, ge=0)
     escalation_brief: str | None = None
     voice_script: str | None = None
     model_reasoning: str | None = None
+
+    @model_validator(mode="after")
+    def actions_must_be_pending(self) -> "ActionPlan":
+        if any(item.status != ActionItemStatus.PENDING for item in self.action_items):
+            raise ValueError("Solver action items must be created as pending")
+        return self
 
 
 class Task(BaseModel):
@@ -128,6 +138,7 @@ class Task(BaseModel):
     diagnosis: str | None = None
     can_staff_fix: bool | None = None
     action_items: list[ActionItem] = Field(default_factory=list)
+    supplier_contact_id: str | None = None
     supplier_name: str | None = None
     estimated_callout_cost_gbp: float | None = None
     escalation_brief: str | None = None
@@ -148,11 +159,21 @@ class TaskPatch(BaseModel):
 
 
 class ActionItemPatch(BaseModel):
-    status: ActionItemStatus
+    """Frontend write contract for completing an action and adding outcome evidence."""
+
+    status: ActionItemStatus | None = None
+    user_context: str | None = Field(default=None, max_length=2_000)
+    attachments: list[MediaAttachment] | None = None
+    completed_by: str | None = None
 
 
 class TaskClaim(BaseModel):
     worker_id: str = Field(min_length=1, max_length=100)
+
+
+class ClaimRelease(BaseModel):
+    worker_id: str = Field(min_length=1, max_length=100)
+    reason: str = Field(min_length=1, max_length=500)
 
 
 class Resolution(BaseModel):

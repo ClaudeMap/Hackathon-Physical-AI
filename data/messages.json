@@ -9,12 +9,7 @@
     "photo_link": "images/coffee-machine.jpg",
     "photo_description": "Photo of the office kitchen coffee machines; the reported Jura X8 is on the counter.",
     "asset_hint": "asset-001",
-    "processed": false,
-    "photo_attribution": {
-      "source_url": "https://commons.wikimedia.org/wiki/File:Coffee_machines.jpg",
-      "author": "Saper",
-      "license": "CC BY-SA 4.0"
-    }
+    "processed": false
   },
   "msg_002": {
     "id": "msg_002",
@@ -26,12 +21,7 @@
     "photo_link": "images/dishwasher-open.jpg",
     "photo_description": "Photo of an open, loaded dishwasher. The reported error code is E24.",
     "asset_hint": "asset-002",
-    "processed": false,
-    "photo_attribution": {
-      "source_url": "https://commons.wikimedia.org/wiki/File:Dishwasher_open_for_loading.jpg",
-      "author": "Carlos Paes",
-      "license": "Unrestricted reuse permission via Wikimedia Commons"
-    }
+    "processed": false
   },
   "msg_003": {
     "id": "msg_003",
@@ -43,12 +33,7 @@
     "photo_link": "images/kitchen-fuse-board.jpg",
     "photo_description": "Close-up of a consumer unit / circuit breaker panel. Treat the message safety details and office asset record as authoritative for the labelled Kitchen Sockets breaker.",
     "asset_hint": "asset-003",
-    "processed": false,
-    "photo_attribution": {
-      "source_url": "https://commons.wikimedia.org/wiki/File:Circuit_Breaker.jpg",
-      "author": "Douglas Paul Perkins",
-      "license": "CC0 1.0"
-    }
+    "processed": false
   },
   "msg_004": {
     "id": "msg_004",
@@ -60,12 +45,7 @@
     "photo_link": "images/reception-printer.jpg",
     "photo_description": "Photo of a printer with its internal paper path exposed for maintenance; do not ask staff to dismantle the office printer.",
     "asset_hint": "asset-005",
-    "processed": false,
-    "photo_attribution": {
-      "source_url": "https://commons.wikimedia.org/wiki/File:Printer1.jpg",
-      "author": "K.saunders",
-      "license": "CC BY-SA 3.0"
-    }
+    "processed": false
   },
   "msg_005": {
     "id": "msg_005",
@@ -77,11 +57,6 @@
     "photo_link": "images/yellowing-plant.jpg",
     "photo_description": "Close-up of severely damaged, yellowing plant leaves.",
     "asset_hint": "asset-007",
-    "processed": false,
-    "photo_attribution": {
-      "source_url": "https://commons.wikimedia.org/wiki/File:Dying_plant.jpg",
-      "author": "AJB",
-      "license": "CC BY-SA 4.0"
-    }
+    "processed": false
   }
 }

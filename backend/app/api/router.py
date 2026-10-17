@@ -6,6 +6,7 @@ from app.core.config import messages_path, state_path
 from app.domain.models import (
     ActionItemPatch,
     ActionPlan,
+    ClaimRelease,
     IncomingMessage,
     OfficeContext,
     Resolution,
@@ -78,8 +79,24 @@ def publish_prioritised_task(proposal: TaskProposal, service: TaskService = Depe
 
 @router.post("/queue/claim-next", response_model=Task | None)
 def claim_next_task(claim: TaskClaim, service: TaskService = Depends(get_service)) -> Task | None:
-    """Solver claims the most urgent unclaimed task."""
+    """Solver claims the most urgent task with no active action items."""
     return service.claim_next(claim)
+
+
+@router.get("/queue/solver-candidates", response_model=list[Task])
+def list_solver_candidates(service: TaskService = Depends(get_service)) -> list[Task]:
+    """Pollable Solver queue: queued/ready tasks whose action list has no pending item."""
+    return service.list_solver_candidates()
+
+
+@router.post("/tasks/{task_id}/release-claim", response_model=Task)
+def release_solver_claim(
+    task_id: str,
+    release: ClaimRelease,
+    service: TaskService = Depends(get_service),
+) -> Task:
+    """Return a task to its eligible state if a worker fails before publishing a plan."""
+    return service.release_claim(task_id, release)
 
 
 @router.post("/tasks/{task_id}/action-plan", response_model=Task)

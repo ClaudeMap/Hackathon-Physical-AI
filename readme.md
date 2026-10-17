@@ -8,7 +8,7 @@ Hackathon prototype for an AI office manager that turns unstructured office repo
 | --- | --- | --- |
 | Frontend | Task list, task detail/action-item view, task/action completion | `GET /tasks`, `PATCH /tasks/{id}`, `PATCH /tasks/{id}/action-items/{item_id}`, `POST /tasks/{id}/resolve` |
 | Jev prioritisation | Reads raw Slack/email records, detects duplicates, sets severity/priority | Reads `GET /intake/messages`; writes `POST /queue/tasks` with `TaskProposal` |
-| Solver | Claims queued tasks, reads company context, creates the action plan/escalation | `POST /queue/claim-next`, `GET /context`, `POST /tasks/{id}/action-plan` |
+| Solver | Polls eligible tasks, reads company context, creates the next action plan/escalation | `GET /queue/solver-candidates`, `POST /queue/claim-next`, `GET /context`, `POST /tasks/{id}/action-plan` |
 | Backend | API contract, persistence, task lifecycle, demo data | `backend/app` |
 
 The shared queue is deliberately model-agnostic: models can be a prompt, a deterministic demo ruleset, or a real OpenAI integration without changing the frontend contract.
@@ -22,8 +22,8 @@ backend/
     domain/models.py           # shared Pydantic schemas
     services/task_service.py   # lifecycle and write-back rules
     repositories/json_store.py # replaceable demo persistence adapter
+    solver/                    # independently-run polling OpenAI worker
   data/company_context.json    # version-controlled mock company database
-  data/inbox.example.json      # sample raw Slack/email inputs
   tests/test_api.py            # happy-path API contract tests
 ```
 
@@ -54,7 +54,7 @@ Keep incoming Slack/email reports in a separate `messages.json` (or submit them 
 
 ## Demo intake photos
 
-`data/messages.json` is the canonical, five-message intake fixture. Every message has one local JPEG in `data/images/`; `backend/data/inbox.example.json` is an exact contract copy for the backend workstream. Image paths are relative to `data/messages.json`, and their Commons licences are recorded in [data/images/ATTRIBUTION.md](data/images/ATTRIBUTION.md).
+`data/messages.json` is the only source of truth for the five-message intake fixture. Every message has one local JPEG in `data/images/`, and every `photo_link` is relative to `data/messages.json`. The frontend and Jev should read that one file directly.
 
 ## Build the prioritised queue
 
@@ -84,8 +84,32 @@ Slack/email/web report → POST /intake/messages
 
 Priority uses integer `1` (critical) through `4` (low), so sorting is unambiguous. A `duplicate_of_task_id` supplied by Jev merges reporters, source messages and attachments into the original ticket.
 
+## Solver worker
+
+Start the API first, set `OPENAI_API_KEY` locally, then run the worker from `backend/`:
+
+```powershell
+$env:OPENAI_API_KEY = "..."
+python -m app.solver
+```
+
+Use `python -m app.solver --once` to process currently eligible tickets and exit. The worker polls every eight seconds by default; set `SOLVER_POLL_SECONDS`, `SOLVER_MAX_TASKS_PER_POLL`, `SOLVER_WORKER_ID`, `SOLVER_MODEL`, or `STEWARD_API_URL` to override it.
+
+An eligible task is `queued` or `ready` and has no pending action items. The worker atomically claims it, supplies the task, completed user notes/photos, complete company context and supplier directory to OpenAI, then appends one to three pending actions. If the model cannot recommend a safe staff fix, it must select a supplier from the supplied directory and create an escalation action with that supplier's contact details and call-out cost. A model/API failure releases the claim for a later retry.
+
+The frontend can attach outcome evidence when it completes an action:
+
+```json
+{
+  "status": "complete",
+  "completed_by": "aisha.rahman@steward-demo.co.uk",
+  "user_context": "Hopper reduced but the grinder error remains.",
+  "attachments": [{"url": "images/coffee-machine-after.jpg", "media_type": "image"}]
+}
+```
+
 ## What each model must return
 
 Jev posts a `TaskProposal` containing a title, description, `priority`, `severity`, optional location/problem type, reporter/message IDs, confidence and an optional duplicate ticket ID.
 
-Solver posts an `ActionPlan` containing a diagnosis, confidence, staff-vs-supplier decision, one or more action items, and optional supplier, cost, escalation brief and voice script. The action plan becomes the exact data the frontend renders.
+Solver posts an `ActionPlan` containing a diagnosis, confidence, staff-vs-supplier decision, one to three pending action items, and optional supplier contact ID, supplier, cost, escalation brief and voice script. The action plan becomes the exact data the frontend renders.

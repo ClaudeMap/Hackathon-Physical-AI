@@ -86,3 +86,65 @@ def test_duplicate_proposal_merges_onto_existing_task() -> None:
     assert set(merged.json()["reporter_ids"]) == {"alex@example.com", "morgan@example.com"}
     assert len(client.get("/api/v1/tasks").json()) == 1
 
+
+def test_solver_replans_only_after_all_current_actions_are_completed() -> None:
+    task_id = client.post(
+        "/api/v1/queue/tasks",
+        json={
+            "title": "Coffee machine reports a grinder jam",
+            "description": "Jura X8 in the kitchen cannot brew.",
+            "priority": 3,
+            "severity": "normal",
+        },
+    ).json()["id"]
+    assert [task["id"] for task in client.get("/api/v1/queue/solver-candidates").json()] == [task_id]
+
+    client.post("/api/v1/queue/claim-next", json={"worker_id": "solver-test"})
+    plan = client.post(
+        f"/api/v1/tasks/{task_id}/action-plan",
+        json={
+            "diagnosis": "The hopper is too full.",
+            "confidence": 0.8,
+            "can_staff_fix": True,
+            "action_items": [{"title": "Reduce the hopper", "instructions": "Leave it two-thirds full."}],
+        },
+    ).json()
+    action_item_id = plan["action_items"][0]["id"]
+    assert client.get("/api/v1/queue/solver-candidates").json() == []
+
+    client.patch(
+        f"/api/v1/tasks/{task_id}/action-items/{action_item_id}",
+        json={
+            "status": "complete",
+            "user_context": "Hopper reduced; the error is still visible.",
+            "completed_by": "aisha.rahman@steward-demo.co.uk",
+            "attachments": [{"url": "images/coffee-machine-after.jpg", "caption": "Error remains"}],
+        },
+    ).raise_for_status()
+    candidate = client.get("/api/v1/queue/solver-candidates").json()
+    assert candidate[0]["id"] == task_id
+    assert candidate[0]["action_items"][0]["user_context"] == "Hopper reduced; the error is still visible."
+
+
+def test_solver_action_plan_has_a_maximum_of_three_actions() -> None:
+    task_id = client.post(
+        "/api/v1/queue/tasks",
+        json={
+            "title": "Printer needs attention",
+            "description": "Printer error.",
+            "priority": 3,
+            "severity": "normal",
+        },
+    ).json()["id"]
+    client.post("/api/v1/queue/claim-next", json={"worker_id": "solver-test"})
+    response = client.post(
+        f"/api/v1/tasks/{task_id}/action-plan",
+        json={
+            "diagnosis": "Needs diagnosis.",
+            "confidence": 0.5,
+            "can_staff_fix": True,
+            "action_items": [{"title": f"Action {number}"} for number in range(4)],
+        },
+    )
+    assert response.status_code == 422
+
