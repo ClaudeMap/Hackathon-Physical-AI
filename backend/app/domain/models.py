@@ -124,6 +124,7 @@ class Task(BaseModel):
     attachments: list[MediaAttachment] = Field(default_factory=list)
     duplicate_of_task_id: str | None = None
     confidence: float = Field(default=0.5, ge=0, le=1)
+    model_reasoning: str | None = None
     diagnosis: str | None = None
     can_staff_fix: bool | None = None
     action_items: list[ActionItem] = Field(default_factory=list)

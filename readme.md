@@ -56,6 +56,16 @@ Keep incoming Slack/email reports in a separate `messages.json` (or submit them 
 
 `data/messages.json` is the canonical, five-message intake fixture. Every message has one local JPEG in `data/images/`; `backend/data/inbox.example.json` is an exact contract copy for the backend workstream. Image paths are relative to `data/messages.json`, and their Commons licences are recorded in [data/images/ATTRIBUTION.md](data/images/ATTRIBUTION.md).
 
+## Build the prioritised queue
+
+`app/services/prioritiser.py` is a deterministic stand-in for Jev. It skips processed and non-actionable messages, merges repeat reports of the same incident into one ticket, and publishes ranked `TaskProposal`s to the queue. From `backend/`:
+
+```powershell
+python -m app.services.prioritiser        # prints the queue
+```
+
+or call `POST /api/v1/dev/seed-queue`. Re-running only queues messages it has not seen. It reads `data/messages.local.json` if present, otherwise the `data/messages.json` demo fixture (override with `STEWARD_MESSAGES_PATH`). Put real Slack/email messages only in `data/messages.local.json`, which is git-ignored. To use a real model, replace `prioritise()`; the queue contract does not change.
+
 ## Lifecycle
 
 ```text

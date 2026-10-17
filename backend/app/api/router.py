@@ -2,7 +2,7 @@ from __future__ import annotations
 
 from fastapi import APIRouter, Depends, Response, status
 
-from app.core.config import state_path
+from app.core.config import messages_path, state_path
 from app.domain.models import (
     ActionItemPatch,
     ActionPlan,
@@ -15,6 +15,7 @@ from app.domain.models import (
     TaskProposal,
 )
 from app.repositories.json_store import JsonStore
+from app.services.prioritiser import build_queue, load_messages
 from app.services.task_service import TaskService
 
 
@@ -98,3 +99,9 @@ def reset_demo_state() -> Response:
     _store.reset()
     return Response(status_code=status.HTTP_204_NO_CONTENT)
 
+
+
+@router.post("/dev/seed-queue", response_model=list[Task])
+def seed_queue_from_messages(service: TaskService = Depends(get_service)) -> list[Task]:
+    """Development-only: run the demo prioritiser over the intake messages. Re-running skips seen messages."""
+    return build_queue(service, load_messages(messages_path()))
