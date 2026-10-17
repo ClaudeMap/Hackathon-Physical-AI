@@ -1,0 +1,526 @@
+{
+  "office_description": {
+    "name": "Steward House",
+    "address": "42 Farringdon Lane, London EC1R 3AU",
+    "timezone": "Europe/London",
+    "office_hours": "Monday-Friday, 08:00-18:30",
+    "building_access": "Use the Steward House lobby intercom. Facilities cupboard keys are held by the office manager in reception drawer R2.",
+    "emergency_rule": "Do not ask staff to work on live electrical equipment, open a fuse board cover, use ladders, or bypass a safety interlock. Escalate immediately when there is smoke, heat, water near electricity, a burning smell, or uncertainty.",
+    "floors": [
+      {
+        "floor": "Level 7",
+        "description": "Single office floor with reception, open-plan desks, kitchen and three meeting rooms.",
+        "map_reference": "demo-level-7-v1",
+        "areas": [
+          {
+            "name": "Reception",
+            "position": "South entrance, immediately after the lifts",
+            "notes": "Contains visitor sign-in tablet, spare access cards and the office-manager desk. First-aid kit is in the labelled cabinet behind the desk."
+          },
+          {
+            "name": "Open-plan desks",
+            "position": "Centre and east side of Level 7",
+            "notes": "Thirty hot desks arranged in zones A, B and C. Each zone has ten desks, floor boxes and one network access point. Desk labels run A01-A10, B01-B10 and C01-C10."
+          },
+          {
+            "name": "Kitchen",
+            "position": "North-west corner, beside the fire door",
+            "notes": "Coffee machine, dishwasher, fridge, filtered-water tap and the electrical cupboard. Keep the fire-door route clear."
+          },
+          {
+            "name": "Meeting Room Atlas",
+            "position": "West side, beside reception",
+            "notes": "Eight-person room. One 65-inch display, Logitech Rally Bar, HDMI cable and room-panel tablet."
+          },
+          {
+            "name": "Meeting Room Birch",
+            "position": "North side, next to the kitchen",
+            "notes": "Four-person room. One 55-inch display, USB-C dock and room-panel tablet."
+          },
+          {
+            "name": "Meeting Room Cedar",
+            "position": "East side, by desk zone C",
+            "notes": "Six-person room. One 55-inch display, USB-C dock and room-panel tablet."
+          },
+          {
+            "name": "Comms cupboard",
+            "position": "Locked cupboard behind reception",
+            "notes": "Holds internet modem, firewall, network switch and spare toner. Access is restricted to the managed-IT supplier or office manager."
+          }
+        ]
+      }
+    ],
+    "office_rules": [
+      "Office manager may reset a labelled circuit breaker once only when there is no smell of burning, water or visible damage.",
+      "Never unplug the firewall, network switch or meeting-room equipment without checking the inventory record and notifying the office manager.",
+      "Spare printer toner is in the lower shelf of the comms cupboard; recycle empty cartridges in the labelled box.",
+      "Plant watering happens on Mondays and Thursdays; use the filtered-water tap, not coffee-machine cleaning water."
+    ]
+  },
+  "employees": [
+    {
+      "id": "emp-001",
+      "name": "Nikolaj Jensen",
+      "email": "nikolaj.jensen@steward-demo.co.uk",
+      "role": "Office Manager",
+      "description": "Owns day-to-day office operations, supplier approvals, room bookings and the facilities budget. Primary decision maker for escalations.",
+      "slack_handle": "@nikolaj",
+      "working_pattern": "Monday-Friday, normally on site",
+      "on_site_today": true,
+      "can_approve_supplier_callout": true
+    },
+    {
+      "id": "emp-002",
+      "name": "Aisha Rahman",
+      "email": "aisha.rahman@steward-demo.co.uk",
+      "role": "Operations Coordinator",
+      "description": "Supports reception, visitor access, lunch orders and meeting-room resets. Safe first responder for routine kitchen and printer issues.",
+      "slack_handle": "@aisha",
+      "working_pattern": "Tuesday-Friday, on site",
+      "on_site_today": true,
+      "can_approve_supplier_callout": false
+    },
+    {
+      "id": "emp-003",
+      "name": "Maya Patel",
+      "email": "maya.patel@steward-demo.co.uk",
+      "role": "IT Lead",
+      "description": "Owns internal IT standards and liaises with managed IT. Can confirm service impact but should not be pulled into routine facilities fixes.",
+      "slack_handle": "@maya",
+      "working_pattern": "Monday-Thursday, hybrid",
+      "on_site_today": false,
+      "can_approve_supplier_callout": false
+    },
+    {
+      "id": "emp-004",
+      "name": "Sam Clarke",
+      "email": "sam.clarke@steward-demo.co.uk",
+      "role": "People Operations Partner",
+      "description": "Coordinates staff communications, dietary requirements and new-starter equipment requests.",
+      "slack_handle": "@sam",
+      "working_pattern": "Monday-Friday, hybrid",
+      "on_site_today": true,
+      "can_approve_supplier_callout": false
+    },
+    {
+      "id": "emp-005",
+      "name": "Leo Martin",
+      "email": "leo.martin@steward-demo.co.uk",
+      "role": "Product Designer",
+      "description": "Frequent meeting-room user and designated reporter for display or video-conferencing faults.",
+      "slack_handle": "@leo",
+      "working_pattern": "Monday-Friday, on site",
+      "on_site_today": true,
+      "can_approve_supplier_callout": false
+    },
+    {
+      "id": "emp-006",
+      "name": "Jess Wong",
+      "email": "jess.wong@steward-demo.co.uk",
+      "role": "Finance Manager",
+      "description": "Checks supplier invoices and budget codes. Requires a complete ticket and supplier brief before approving an unexpected charge.",
+      "slack_handle": "@jess",
+      "working_pattern": "Monday, Wednesday and Friday, hybrid",
+      "on_site_today": false,
+      "can_approve_supplier_callout": false
+    }
+  ],
+  "escalation_contacts": [
+    {
+      "id": "supplier-001",
+      "name": "BrightSpark Electricians",
+      "speciality": "electrical",
+      "phone": "+44 20 7946 0810",
+      "email": "dispatch@brightspark.example",
+      "callout_cost_gbp": 120,
+      "contract_terms": "Four-hour weekday response. Authorisation from Nikolaj required before dispatch.",
+      "preferred_for": ["repeated circuit trips", "electrical smell", "fuse board fault"],
+      "warranty_notes": "Electrical remedial work completed in March 2026 has a 12-month warranty."
+    },
+    {
+      "id": "supplier-002",
+      "name": "Northstar Managed IT",
+      "speciality": "network and meeting-room technology",
+      "phone": "+44 20 7946 0820",
+      "email": "support@northstar.example",
+      "callout_cost_gbp": 95,
+      "contract_terms": "Remote support included. On-site visit is chargeable after remote diagnostics; attach firewall and access-point logs.",
+      "preferred_for": ["wifi outage", "firewall", "access point", "meeting-room video"],
+      "warranty_notes": "Network equipment is covered by the managed-service agreement."
+    },
+    {
+      "id": "supplier-003",
+      "name": "BeanWorks Coffee Service",
+      "speciality": "coffee machine maintenance",
+      "phone": "+44 20 7946 0830",
+      "email": "service@beanworks.example",
+      "callout_cost_gbp": 85,
+      "contract_terms": "Quarterly service included; call-outs for user-serviceable grinder jams should be avoided unless the error persists after cleaning.",
+      "preferred_for": ["coffee machine leak", "persistent grinder error", "machine annual service"],
+      "warranty_notes": "Machine is leased through December 2028."
+    },
+    {
+      "id": "supplier-004",
+      "name": "Verdant Office Plants",
+      "speciality": "plant care",
+      "phone": "+44 20 7946 0840",
+      "email": "hello@verdant.example",
+      "callout_cost_gbp": 45,
+      "contract_terms": "Fortnightly Thursday visit. Extra rescue visit available within two business days.",
+      "preferred_for": ["plant-care visit", "replace dying plant", "pest treatment"],
+      "warranty_notes": "Replacement plants are covered for 30 days."
+    },
+    {
+      "id": "supplier-005",
+      "name": "Vision Install Co.",
+      "speciality": "AV and display installation",
+      "phone": "+44 20 7946 0850",
+      "email": "bookings@visioninstall.example",
+      "callout_cost_gbp": 180,
+      "contract_terms": "Book five business days ahead; include delivery note, wall type and room availability.",
+      "preferred_for": ["screen installation", "wall mounting", "AV cabling"],
+      "warranty_notes": "Installation labour is warrantied for 12 months."
+    }
+  ],
+  "inventory": [
+    {
+      "id": "asset-001",
+      "name": "Kitchen coffee machine",
+      "category": "appliance",
+      "make": "Jura",
+      "model": "X8",
+      "serial_number": "JX8-SH-10492",
+      "location": "Kitchen, north counter beside filtered-water tap",
+      "map_position": "L7-KIT-02",
+      "visual_identifiers": ["JURA logo", "X8 label on rear panel", "touchscreen above twin spouts"],
+      "support_contact_id": "supplier-003",
+      "installed_on": "2025-12-12",
+      "service_history": [
+        {"date": "2026-07-04", "summary": "Quarterly clean and brew-group inspection; no faults."},
+        {"date": "2026-09-18", "summary": "Grinder jam cleared after hopper overfilled; staff guidance added."}
+      ],
+      "safe_staff_actions": ["Empty bean hopper to approximately two-thirds", "Run the on-screen grinder-cleaning cycle", "Wipe visible dry grounds from hopper opening"],
+      "escalate_when": ["Error persists after one cleaning cycle", "Machine leaks", "There is a burning smell or unusual heat"],
+      "known_issues": ["Grinder can jam when the hopper is filled to the brim or oily beans are used."]
+    },
+    {
+      "id": "asset-002",
+      "name": "Kitchen dishwasher",
+      "category": "appliance",
+      "make": "Bosch",
+      "model": "SMV4HVX38G",
+      "serial_number": "BSH-7K-29381",
+      "location": "Kitchen, under the south counter beside the recycling bins",
+      "map_position": "L7-KIT-05",
+      "visual_identifiers": ["Bosch logo on upper edge", "integrated black display", "E24 error shown in white characters"],
+      "support_contact_id": "supplier-001",
+      "installed_on": "2025-10-03",
+      "service_history": [
+        {"date": "2026-08-22", "summary": "Drain filter cleaned; E24 cleared."}
+      ],
+      "safe_staff_actions": ["Turn off using the front power button", "Remove and rinse the accessible drain filter", "Run the short rinse cycle after refitting the filter"],
+      "escalate_when": ["E24 remains after filter clean", "Water leaks onto the floor", "Filter or pump cover is damaged"],
+      "known_issues": ["E24 normally indicates a blocked accessible drain filter after busy lunch days."]
+    },
+    {
+      "id": "asset-003",
+      "name": "Kitchen consumer unit",
+      "category": "electrical infrastructure",
+      "make": "Hager",
+      "model": "VY24",
+      "serial_number": "N/A",
+      "location": "Kitchen, labelled electrical cupboard left of the fridge",
+      "map_position": "L7-KIT-01",
+      "visual_identifiers": ["White Hager consumer unit", "labelled circuits", "Kitchen Sockets circuit is third breaker from left"],
+      "support_contact_id": "supplier-001",
+      "installed_on": "2024-06-14",
+      "service_history": [
+        {"date": "2026-03-11", "summary": "Kitchen sockets RCBO replaced by BrightSpark under warranty."},
+        {"date": "2026-08-12", "summary": "One circuit trip caused by an overfilled coffee-machine water tray; reset and monitored."}
+      ],
+      "safe_staff_actions": ["Visually identify the labelled Kitchen Sockets breaker", "Reset it once only if it is down and there is no sign of danger", "Unplug the most recently used portable appliance before retrying if known"],
+      "escalate_when": ["Breaker trips again immediately", "There is water, smoke, heat, damage or a burning smell", "The affected breaker cannot be identified with certainty"],
+      "known_issues": ["Kitchen Sockets supplies the coffee machine and counter outlets; it does not supply the dishwasher."]
+    },
+    {
+      "id": "asset-004",
+      "name": "Main-floor Wi-Fi access point",
+      "category": "network",
+      "make": "Ubiquiti",
+      "model": "UniFi U6 Pro",
+      "serial_number": "U6P-MAIN-071",
+      "location": "Ceiling above desk zone B, near desk B05",
+      "map_position": "L7-DESK-B05-CEILING",
+      "visual_identifiers": ["Round white ceiling-mounted access point", "small blue status LED"],
+      "support_contact_id": "supplier-002",
+      "installed_on": "2026-02-16",
+      "service_history": [
+        {"date": "2026-07-28", "summary": "Firmware update applied by Northstar; intermittent roaming issue resolved."}
+      ],
+      "safe_staff_actions": ["Confirm whether the issue affects desk zones A, B or C", "Check the network-status page", "Ask the office manager before power-cycling the labelled PoE injector"],
+      "escalate_when": ["More than one access point is offline", "Power cycling fails", "Firewall, modem or comms cupboard equipment is involved"],
+      "known_issues": ["The blue LED may be off during a firmware update; do not power-cycle until Northstar confirms status."]
+    },
+    {
+      "id": "asset-005",
+      "name": "Reception printer",
+      "category": "printer",
+      "make": "HP",
+      "model": "Color LaserJet Pro MFP 4301fdw",
+      "serial_number": "HP-REC-44819",
+      "location": "Reception, cabinet beside the office-manager desk",
+      "map_position": "L7-REC-04",
+      "visual_identifiers": ["HP logo", "colour touchscreen", "magenta toner indicator on front panel"],
+      "support_contact_id": "supplier-002",
+      "installed_on": "2025-11-05",
+      "service_history": [
+        {"date": "2026-06-30", "summary": "Cyan cartridge replaced; print queue test completed."}
+      ],
+      "safe_staff_actions": ["Use the matching labelled spare cartridge", "Follow on-screen replacement guide", "Resume the queue and print one test page"],
+      "escalate_when": ["A paper jam cannot be removed without force", "The printer reports a fuser or hardware error", "Replacement cartridge is rejected"],
+      "known_issues": ["Printer is leased; toner is included and should not create a separate call-out charge."]
+    },
+    {
+      "id": "asset-006",
+      "name": "Meeting Room Birch display",
+      "category": "meeting-room AV",
+      "make": "Samsung",
+      "model": "QB65R",
+      "serial_number": "SAM-ATL-6508",
+      "location": "Meeting Room Birch, north wall",
+      "map_position": "L7-BIRCH-01",
+      "visual_identifiers": ["65-inch Samsung display", "wall-mounted below the camera bar"],
+      "support_contact_id": "supplier-005",
+      "installed_on": "2025-09-14",
+      "service_history": [
+        {"date": "2026-04-08", "summary": "HDMI cable replaced after intermittent signal loss."}
+      ],
+      "safe_staff_actions": ["Check that the wall control has power", "Reconnect the labelled HDMI cable", "Try the USB-C dock with a second laptop"],
+      "escalate_when": ["Display fails to power on", "Wall mount is loose", "A new screen needs fitting"],
+      "known_issues": ["Do not remove the display from its wall mount; installation supplier is required for that work."]
+    },
+    {
+      "id": "asset-007",
+      "name": "Open-plan plants",
+      "category": "plants",
+      "make": "Verdant Office Plants",
+      "model": "Mixed low-light planters",
+      "serial_number": "N/A",
+      "location": "Desk zones A and C, reception and Meeting Room Birch",
+      "map_position": "L7-PLANTS-GROUP",
+      "visual_identifiers": ["Matte charcoal cylindrical planters", "plant-care tag under rim"],
+      "support_contact_id": "supplier-004",
+      "installed_on": "2026-01-09",
+      "service_history": [
+        {"date": "2026-09-04", "summary": "Two pothos replaced after holiday watering gap."}
+      ],
+      "safe_staff_actions": ["Check soil moisture one finger deep", "Water dry plants lightly with filtered water", "Move leaves away from direct heater airflow"],
+      "escalate_when": ["Pests are visible", "More than one plant has yellowing leaves", "A scheduled visit is missed"],
+      "known_issues": ["Planter beside desk C10 dries fastest because of the nearby air vent."]
+    }
+  ],
+  "memory": [
+    {
+      "id": "memory-001",
+      "topic": "coffee machine grinder jam",
+      "lesson": "For Jura X8 grinder-jammed errors, reducing the bean hopper to around two-thirds and running the cleaning cycle cleared the fault in under ten minutes. Do not call BeanWorks unless the error persists after one cycle.",
+      "confidence": 0.9,
+      "last_confirmed_at": "2026-09-18T10:15:00Z",
+      "related_asset_id": "asset-001"
+    },
+    {
+      "id": "memory-002",
+      "topic": "kitchen socket circuit",
+      "lesson": "The Kitchen Sockets breaker can be reset once when there is no safety warning. If it immediately trips again, leave it off and contact BrightSpark; the circuit was repaired in March 2026 and remains under warranty.",
+      "confidence": 0.95,
+      "last_confirmed_at": "2026-08-12T09:40:00Z",
+      "related_asset_id": "asset-003"
+    },
+    {
+      "id": "memory-003",
+      "topic": "dishwasher E24",
+      "lesson": "E24 has twice been resolved by clearing the accessible drain filter after lunch. The short rinse cycle should drain normally afterward.",
+      "confidence": 0.92,
+      "last_confirmed_at": "2026-08-22T13:30:00Z",
+      "related_asset_id": "asset-002"
+    },
+    {
+      "id": "memory-004",
+      "topic": "main floor Wi-Fi",
+      "lesson": "Before escalating, establish the affected desk zones and consult the network-status page. A firmware update can temporarily turn the access-point LED off, so never power-cycle it blindly.",
+      "confidence": 0.86,
+      "last_confirmed_at": "2026-07-28T16:20:00Z",
+      "related_asset_id": "asset-004"
+    },
+    {
+      "id": "memory-005",
+      "topic": "team lunch order",
+      "lesson": "For Thursday lunch, start from the Green Bowl Kitchen order: 18 regular bowls, 3 vegan bowls, 2 gluten-free bowls and no peanuts. Sam owns dietary confirmation before an order is submitted.",
+      "confidence": 0.8,
+      "last_confirmed_at": "2026-10-02T11:00:00Z",
+      "related_asset_id": null
+    }
+  ],
+  "history": [
+    {
+      "ticket_id": "TKT-1001",
+      "title": "Kitchen sockets tripped",
+      "problem_type": "electrical",
+      "severity": "critical",
+      "location": "Kitchen",
+      "asset_id": "asset-003",
+      "reporters": ["sam.clarke@steward-demo.co.uk", "leo.martin@steward-demo.co.uk"],
+      "opened_at": "2026-08-12T09:21:00Z",
+      "resolved_at": "2026-08-12T09:42:00Z",
+      "outcome": "Kitchen Sockets breaker was reset once after safety check. Coffee-machine water tray was emptied and no repeat trip occurred.",
+      "resolution_type": "staff fix",
+      "supplier_id": null,
+      "cost_gbp": 0,
+      "duplicate_reports_merged": 2
+    },
+    {
+      "ticket_id": "TKT-1002",
+      "title": "Jura X8 reports grinder jammed",
+      "problem_type": "appliance",
+      "severity": "normal",
+      "location": "Kitchen",
+      "asset_id": "asset-001",
+      "reporters": ["aisha.rahman@steward-demo.co.uk"],
+      "opened_at": "2026-09-18T10:02:00Z",
+      "resolved_at": "2026-09-18T10:15:00Z",
+      "outcome": "Hopper was reduced to two-thirds and the grinder-cleaning cycle completed. Error cleared.",
+      "resolution_type": "staff fix",
+      "supplier_id": null,
+      "cost_gbp": 0,
+      "duplicate_reports_merged": 0
+    },
+    {
+      "ticket_id": "TKT-1003",
+      "title": "Intermittent Wi-Fi in desk zone B",
+      "problem_type": "network",
+      "severity": "high",
+      "location": "Open-plan desks, zone B",
+      "asset_id": "asset-004",
+      "reporters": ["leo.martin@steward-demo.co.uk", "sam.clarke@steward-demo.co.uk", "maya.patel@steward-demo.co.uk"],
+      "opened_at": "2026-07-28T15:10:00Z",
+      "resolved_at": "2026-07-28T16:20:00Z",
+      "outcome": "Network status and access-point logs sent to Northstar. Supplier applied firmware update remotely; service stabilised.",
+      "resolution_type": "supplier remote support",
+      "supplier_id": "supplier-002",
+      "cost_gbp": 0,
+      "duplicate_reports_merged": 3
+    },
+    {
+      "ticket_id": "TKT-1004",
+      "title": "Reception printer toner low",
+      "problem_type": "printer",
+      "severity": "normal",
+      "location": "Reception",
+      "asset_id": "asset-005",
+      "reporters": ["nikolaj.jensen@steward-demo.co.uk"],
+      "opened_at": "2026-06-30T11:42:00Z",
+      "resolved_at": "2026-06-30T11:50:00Z",
+      "outcome": "Cyan cartridge replaced from labelled spare stock and test page printed. Lease includes toner.",
+      "resolution_type": "staff fix",
+      "supplier_id": null,
+      "cost_gbp": 0,
+      "duplicate_reports_merged": 0
+    },
+    {
+      "ticket_id": "TKT-1005",
+      "title": "Dishwasher displays E24",
+      "problem_type": "appliance",
+      "severity": "normal",
+      "location": "Kitchen",
+      "asset_id": "asset-002",
+      "reporters": ["aisha.rahman@steward-demo.co.uk"],
+      "opened_at": "2026-08-22T13:14:00Z",
+      "resolved_at": "2026-08-22T13:30:00Z",
+      "outcome": "Accessible drain filter was rinsed and refitted. Short rinse cycle drained normally.",
+      "resolution_type": "staff fix",
+      "supplier_id": null,
+      "cost_gbp": 0,
+      "duplicate_reports_merged": 0
+    },
+    {
+      "ticket_id": "TKT-1006",
+      "title": "Yellowing plants near desk C10",
+      "problem_type": "plant care",
+      "severity": "low",
+      "location": "Open-plan desks, zone C",
+      "asset_id": "asset-007",
+      "reporters": ["leo.martin@steward-demo.co.uk"],
+      "opened_at": "2026-09-04T14:00:00Z",
+      "resolved_at": "2026-09-05T10:30:00Z",
+      "outcome": "Plants were watered and two pothos replaced by Verdant after a missed holiday check.",
+      "resolution_type": "supplier visit",
+      "supplier_id": "supplier-004",
+      "cost_gbp": 45,
+      "duplicate_reports_merged": 0
+    },
+    {
+      "ticket_id": "TKT-1007",
+      "title": "New display installed in Meeting Room Birch",
+      "problem_type": "installation",
+      "severity": "low",
+      "location": "Meeting Room Birch",
+      "asset_id": "asset-006",
+      "reporters": ["nikolaj.jensen@steward-demo.co.uk"],
+      "opened_at": "2026-09-09T09:00:00Z",
+      "resolved_at": "2026-09-16T16:00:00Z",
+      "outcome": "Vision Install Co. mounted replacement display, tested USB-C dock and removed packaging. Room was blocked for the appointment.",
+      "resolution_type": "supplier visit",
+      "supplier_id": "supplier-005",
+      "cost_gbp": 180,
+      "duplicate_reports_merged": 0
+    }
+  ],
+  "invoices": [
+    {
+      "invoice_id": "INV-NS-2026-07",
+      "supplier_id": "supplier-002",
+      "supplier_name": "Northstar Managed IT",
+      "received_at": "2026-08-01",
+      "amount_gbp": 0,
+      "status": "matched",
+      "related_ticket_id": "TKT-1003",
+      "notes": "Firmware remediation included in managed-service agreement."
+    },
+    {
+      "invoice_id": "INV-VER-2026-09-05",
+      "supplier_id": "supplier-004",
+      "supplier_name": "Verdant Office Plants",
+      "received_at": "2026-09-07",
+      "amount_gbp": 45,
+      "status": "matched",
+      "related_ticket_id": "TKT-1006",
+      "notes": "Extra rescue visit matched the contracted call-out cost."
+    },
+    {
+      "invoice_id": "INV-VIS-2026-09-16",
+      "supplier_id": "supplier-005",
+      "supplier_name": "Vision Install Co.",
+      "received_at": "2026-09-18",
+      "amount_gbp": 180,
+      "status": "matched",
+      "related_ticket_id": "TKT-1007",
+      "notes": "Screen-installation call-out matched quote and completed ticket."
+    }
+  ],
+  "playbooks": [
+    {
+      "id": "playbook-001",
+      "name": "Critical electrical report",
+      "trigger": "Tripped breaker, no power, electrical smell or visible electrical damage",
+      "steps": ["Check for immediate danger", "Do not open electrical panels", "Only reset one clearly labelled breaker once when safe", "Escalate on any repeat trip or uncertainty"],
+      "voice_tone": "calm, concise and safety-first"
+    },
+    {
+      "id": "playbook-002",
+      "name": "Supplier escalation brief",
+      "trigger": "Issue needs external support",
+      "steps": ["State asset, location and impact", "Attach photo or logs", "List safe steps already attempted", "Include access instructions and approval contact", "State expected call-out cost before sending"],
+      "voice_tone": "clear and factual"
+    }
+  ]
+}

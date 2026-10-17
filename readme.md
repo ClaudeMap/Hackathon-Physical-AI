@@ -22,6 +22,7 @@ backend/
     domain/models.py           # shared Pydantic schemas
     services/task_service.py   # lifecycle and write-back rules
     repositories/json_store.py # replaceable demo persistence adapter
+  data/company_context.json    # version-controlled mock company database
   data/inbox.example.json      # sample raw Slack/email inputs
   tests/test_api.py            # happy-path API contract tests
 ```
@@ -38,7 +39,22 @@ pip install -e ".[dev]"
 uvicorn app.main:app --reload
 ```
 
-Open `http://127.0.0.1:8000/docs` for the interactive API specification. The local demo state is written to `backend/data/state.json` and is ignored by Git; reset it with `POST /api/v1/dev/reset`.
+Open `http://127.0.0.1:8000/docs` for the interactive API specification. The local demo state is written to `backend/data/state.json` and is ignored by Git; reset it with `POST /api/v1/dev/reset`. Resetting rehydrates the checked-in [company context seed](backend/data/company_context.json), leaving the source data untouched.
+
+## Company database
+
+`backend/data/company_context.json` is the mock, source-controlled database that every Solver run receives through `GET /api/v1/context`. It contains:
+
+- Six employee records with responsibilities, availability and approval scope.
+- A navigable Level 7 office description: zones, meeting rooms, equipment positions, access instructions and safety rules.
+- Seven inventory records with visual identifiers, service history, safe staff actions and escalation criteria.
+- Five suppliers, context-specific memory, seven closed tickets, matched invoices and reusable operating playbooks.
+
+Keep incoming Slack/email reports in a separate `messages.json` (or submit them to `POST /api/v1/intake/messages`); this prevents raw intake from being mixed with durable company knowledge.
+
+## Demo intake photos
+
+`data/messages.json` is the canonical, five-message intake fixture. Every message has one local JPEG in `data/images/`; `backend/data/inbox.example.json` is an exact contract copy for the backend workstream. Image paths are relative to `data/messages.json`, and their Commons licences are recorded in [data/images/ATTRIBUTION.md](data/images/ATTRIBUTION.md).
 
 ## Lifecycle
 
