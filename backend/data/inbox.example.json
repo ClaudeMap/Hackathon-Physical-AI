@@ -1,0 +1,23 @@
+[
+  {
+    "source": "slack",
+    "author": "sam@example.com",
+    "content": "The kitchen fuse has gone again. The sockets by the coffee machine are off.",
+    "location": "Kitchen",
+    "attachments": [
+      {
+        "url": "https://example.invalid/demo/fuse-board.jpg",
+        "media_type": "image",
+        "caption": "Fuse board, lower switch is down"
+      }
+    ]
+  },
+  {
+    "source": "email",
+    "author": "jules@example.com",
+    "content": "Can someone look at the dishwasher? It shows E24.",
+    "location": "Kitchen",
+    "attachments": []
+  }
+]
+
