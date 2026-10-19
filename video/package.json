@@ -1,0 +1,20 @@
+{
+  "name": "steward-intro",
+  "private": true,
+  "version": "0.1.0",
+  "scripts": {
+    "studio": "remotion studio",
+    "render": "remotion render src/index.ts StewardIntro out/steward-intro.mp4 --codec=h264 --crf=16 --image-format=png"
+  },
+  "dependencies": {
+    "@remotion/cli": "^4.0.372",
+    "@remotion/google-fonts": "^4.0.372",
+    "react": "^19.2.0",
+    "react-dom": "^19.2.0",
+    "remotion": "^4.0.372"
+  },
+  "devDependencies": {
+    "@types/react": "^19.2.0",
+    "typescript": "^5.9.0"
+  }
+}
